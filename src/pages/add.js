@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./pages.css";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -6,12 +6,37 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 
 function Add() {
+  const [ingredients, setIngredients] = useState([""]);
+
+  const handleAddIngredient = (index, event) => {
+    const values = [...ingredients];
+    values[index] = event.target.value;
+    setIngredients(values);
+    // Will create and update the ingredients array with the values from the input fields
+  };
+
+  const handleAddClick = () => {
+    setIngredients([...ingredients, ""]);
+  };
+
+  const handleRemoveClick = (index) => {
+    const values = [...ingredients];
+    values.splice(index, 1);
+    setIngredients(values);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(ingredients);
+    // will hold the value of the ingredients array to send to the backend
+  };
+
   return (
     <>
       <div>
         <h1 className="intro">Add a page into your Recipe Book!</h1>
       </div>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formBasicName">
             <Form.Label htmlFor="name">Recipe Name</Form.Label>
@@ -24,9 +49,29 @@ function Add() {
         </Row>
         <Form.Group className="mb-3" controlId="formBasicIngredients">
           <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
-          <Form.Control as="textarea" placeholder="List all ingredients" />
+          {ingredients.map((ingredient, index) => (
+            <div key={index}>
+              <Form.Control
+                type="text"
+                value={ingredient}
+                onChange={(event) => handleAddIngredient(index, event)}
+              />
+              <Button onClick={handleAddClick}>+</Button>
+              {ingredients.length > 1 && (
+                <Button onClick={() => handleRemoveClick(index)}>-</Button>
+              )}
+            </div>
+          ))}
         </Form.Group>
-        <Button as="input" type="submit" value="Add Recipe" />{" "}
+        <div className="button-container">
+          <Button
+            className="submit"
+            as="input"
+            type="submit"
+            value="Add Recipe"
+            size="lg"
+          />{" "}
+        </div>
       </Form>
     </>
   );
