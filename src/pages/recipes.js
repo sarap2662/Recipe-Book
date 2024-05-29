@@ -1,8 +1,9 @@
 import React from "react";
+import "./pages.css";
 
 const RecipeBook = () => {
   return (
-    <div>
+    <div className="intro">
       <h1>Come here to view all saved recipes</h1>
     </div>
   );
