@@ -9,8 +9,6 @@ const Navbar = () => {
           <NavLink to="/" activeStyle>
             Home
           </NavLink>
-        </NavMenu>
-        <NavMenu>
           <NavLink to="/add" activeStyle>
             Add
           </NavLink>
