@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages";
 import Add from "./pages/add";
 import RecipeBook from "./pages/recipes";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
