@@ -11,3 +11,8 @@ TBA
 - React
 - PostgreSQL
 - React-Bootstrap
+
+## Authors
+
+- Sara Pena - Department leader of Frontend
+- Rasheen Kirkland - Head associate of Backend related duties
