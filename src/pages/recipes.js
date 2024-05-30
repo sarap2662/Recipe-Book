@@ -4,7 +4,7 @@ import "./pages.css";
 const RecipeBook = () => {
   return (
     <div className="intro">
-      <h1>Come here to view all saved recipes</h1>
+      <h1>Turn the pages of your Recipe Book!</h1>
     </div>
   );
 };

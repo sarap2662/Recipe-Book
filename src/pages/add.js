@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 
 function Add() {
   const [ingredients, setIngredients] = useState([""]);
@@ -27,9 +28,21 @@ function Add() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(ingredients);
     // will hold the value of the ingredients array to send to the backend
   };
+
+  // const recipe = {
+  //   name: document.getElementById("formBasicName").value,
+  //   picture: document.getElementById("formBasicPicture").value,
+  //   ingredients: ingredients,
+  //   // Will create a recipe object with the values from the input fields
+  // };
+
+  // axios
+  //   .post("http://localhost:3001/recipes", recipe)
+  //   .then((res) => console.log(res.data))
+  //   .catch((error) => console.error(error));
+  // // Will send the recipe object to the backend to be stored in the database
 
   return (
     <>
