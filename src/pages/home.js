@@ -1,6 +1,6 @@
 import React from "react";
 import "./pages.css";
-import HomeStyle from "./homeStyle";
+import HomeStyle from "../components/homeStyle";
 
 export default function Home() {
   return (
