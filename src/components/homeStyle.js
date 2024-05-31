@@ -1,5 +1,5 @@
 import React from "react";
-import HomeBackground from "../avocados.jpg";
+import HomeBackground from "../dinner.jpg";
 import Image from "react-bootstrap/Image";
 
 export default function HomeStyle() {

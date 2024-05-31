@@ -47,7 +47,7 @@ function Add() {
   return (
     <>
       <div>
-        <h1 className="intro">Add a page into your Recipe Book!</h1>
+        <h1 className="intro">Add your favorite Recipes!</h1>
       </div>
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
