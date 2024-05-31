@@ -6,7 +6,8 @@ export const Nav = styled.nav`
   height: 80px;
   display: flex;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
+  font-family: courier new;
 `;
 
 export const NavLink = styled(Link)`
@@ -17,6 +18,8 @@ export const NavLink = styled(Link)`
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
+  font-family: courier new;
+  font-weight: bold;
 `;
 
 export const NavMenu = styled.div`
