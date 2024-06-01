@@ -1,5 +1,6 @@
 .intro {
   text-align: center;
+  font-family: "Shadows Into Light", cursive;
 }
 
 .button-container {
@@ -14,6 +15,7 @@
   background-image: url("spices.jpg");
   background-size: cover;
   background-position: center;
+  color: white;
 }
 
 .fullPage {

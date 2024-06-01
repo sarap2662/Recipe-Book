@@ -5,7 +5,7 @@ const RecipeBook = () => {
   return (
     <div className="fullPage">
       <div className="intro">
-        <h1>Turn the pages of your Recipe Book!</h1>
+        <h1>Check out your saved Recipes!</h1>
       </div>
       <div className="recipeContainer"></div>
     </div>
