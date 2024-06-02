@@ -8,6 +8,17 @@
   justify-content: center;
 }
 
+.button-container .submit {
+  background-color: green;
+  border-radius: 50%;
+  border: 2px solid green;
+  width: 50%;
+}
+.formContainer button {
+  background-color: green;
+  border: 2px solid green;
+}
+
 .formContainer {
   display: flex;
   justify-content: center;
