@@ -31,12 +31,12 @@ function Add() {
     // will hold the value of the ingredients array to send to the backend
   };
 
-  // const recipe = {
-  //   name: document.getElementById("formBasicName").value,
-  //   picture: document.getElementById("formBasicPicture").value,
-  //   ingredients: ingredients,
-  //   // Will create a recipe object with the values from the input fields
-  // };
+  const recipe = {
+    name: document.getElementById("formBasicName").value,
+    picture: document.getElementById("formBasicPicture").value,
+    ingredients: ingredients,
+    // Will create a recipe object with the values from the input fields
+  };
 
   // axios
   //   .post("http://localhost:3001/recipes", recipe)
@@ -49,7 +49,7 @@ function Add() {
       <div>
         <h1 className="intro">Add a page into your Recipe Book!</h1>
       </div>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} method="POST" action="/recipes">
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formBasicName">
             <Form.Label htmlFor="name">Recipe Name</Form.Label>
