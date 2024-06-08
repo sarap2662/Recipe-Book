@@ -38,7 +38,7 @@ function Add() {
     };
 
     try {
-      const response = await fetch("/recipes", {
+      const response = await fetch("/recipes/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ function Add() {
           <h1 className="intro">Add your favorite Recipes!</h1>
         </div>
         <div className="formContainer">
-          <Form onSubmit={handleSubmit} method="POST">
+          <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formBasicName">
                 <Form.Label htmlFor="name">Recipe Name</Form.Label>

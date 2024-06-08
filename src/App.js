@@ -1,4 +1,3 @@
-import axios, * as others from "axios";
 import React from "react";
 import Navbar from "./components/navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -10,6 +9,8 @@ import Add from "./pages/add";
 import RecipeBook from "./pages/recipes";
 import Error404 from "./pages/error404";
 import EditRecipe from "./pages/editRecipe";
+
+require("dotenv").config();
 
 function App() {
   return (

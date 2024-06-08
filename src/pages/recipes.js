@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./pages.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -6,8 +7,20 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
 
-function RecipeBook(data) {
+function RecipeBook() {
+  const [recipes, setRecipes] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/recipes")
+      .then((response) => {
+        setRecipes(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  }, []);
 
   return (
     <>
@@ -18,7 +31,7 @@ function RecipeBook(data) {
 
         <div className="recipeContainer">
           <Row xs={1} md={2} className="g-4">
-            {data.recipes.map((recipe, idx) => (
+            {recipes.map((recipe, idx) => (
               <Col key={idx}>
                 <Card style={{ width: "20rem" }}>
                   <Card.Img
@@ -29,7 +42,7 @@ function RecipeBook(data) {
                     <Card.Title>{recipe.name}</Card.Title>
                     <Button
                       variant="primary"
-                      onClick={() => navigate.push(`/recipe/${recipe.id}`)}
+                      onClick={() => navigate(`/recipes/${recipe.id}`)}
                     >
                       View Recipe
                     </Button>
