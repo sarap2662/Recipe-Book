@@ -57,7 +57,6 @@
 .recipeCards {
   display: flex;
   justify-content: center;
-  border-style: solid;
   padding-left: 400px;
   padding-top: 75px;
   text-align: center;
