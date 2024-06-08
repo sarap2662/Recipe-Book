@@ -3,6 +3,11 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const methodOverride = require("method-override");
+const cors = require("cors");
+
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 // Express Configuration
 app.set("pages", __dirname + "/pages");
