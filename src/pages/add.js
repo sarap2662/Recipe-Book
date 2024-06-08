@@ -30,12 +30,12 @@ function Add() {
     // will hold the value of the ingredients array to send to the backend
   };
 
-  const recipe = {
-    name: document.getElementById("formBasicName").value,
-    picture: document.getElementById("formBasicPicture").value,
-    ingredients: ingredients,
-    // Will create a recipe object with the values from the input fields
-  };
+  // const recipe = {
+  //   name: document.getElementById("formBasicName").value,
+  //   picture: document.getElementById("formBasicPicture").value,
+  //   ingredients: ingredients,
+  //   // Will create a recipe object with the values from the input fields
+  // };
 
   return (
     <>
