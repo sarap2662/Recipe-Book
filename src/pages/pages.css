@@ -42,3 +42,19 @@
   background-size: cover;
   background-position: center;
 }
+
+.recipeCards {
+  display: flex;
+  justify-content: center;
+  border-style: solid;
+  padding-left: 400px;
+  padding-top: 75px;
+  text-align: center;
+}
+
+.recipeCards button {
+  background-color: green;
+  border-radius: 50%;
+  border: 2px solid green;
+  width: 50%;
+}
