@@ -6,6 +6,8 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 
 function Add() {
+  const [name, setName] = useState("");
+  const [picture, setPicture] = useState("");
   const [ingredients, setIngredients] = useState([""]);
 
   const handleAddIngredient = (index, event) => {
@@ -25,17 +27,40 @@ function Add() {
     setIngredients(values);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // will hold the value of the ingredients array to send to the backend
-  };
 
-  // const recipe = {
-  //   name: document.getElementById("formBasicName").value,
-  //   picture: document.getElementById("formBasicPicture").value,
-  //   ingredients: ingredients,
-  //   // Will create a recipe object with the values from the input fields
-  // };
+    const recipe = {
+      name,
+      picture,
+      ingredients,
+    };
+
+    try {
+      const response = await fetch("/recipes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(recipe),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      // Handle success event
+      console.log("Recipe added successfully!");
+
+      // Clear the form
+      setName("");
+      setPicture("");
+      setIngredients([""]);
+    } catch (error) {
+      console.error("Error adding recipe: ", error);
+    }
+  };
 
   return (
     <>
@@ -44,15 +69,24 @@ function Add() {
           <h1 className="intro">Add your favorite Recipes!</h1>
         </div>
         <div className="formContainer">
-          <Form onSubmit={handleSubmit} method="POST" action="/recipes">
+          <Form onSubmit={handleSubmit} method="POST">
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formBasicName">
                 <Form.Label htmlFor="name">Recipe Name</Form.Label>
-                <Form.Control type="text" />
+                <Form.Control
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </Form.Group>
               <Form.Group as={Col} controlId="formBasicPicture">
                 <Form.Label htmlFor="picture">Picture</Form.Label>
-                <Form.Control type="url" placeholder="Enter picture URL" />
+                <Form.Control
+                  type="url"
+                  placeholder="Enter picture URL"
+                  value={picture}
+                  onChange={(e) => setPicture(e.target.value)}
+                />
               </Form.Group>
             </Row>
             <Form.Group className="mb-3" controlId="formBasicIngredients">
@@ -70,6 +104,10 @@ function Add() {
                   )}
                 </div>
               ))}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="dateCreated">Creation Date</Form.Label>
+              <Form.Control type="date" />
             </Form.Group>
             <div className="button-container">
               <Button

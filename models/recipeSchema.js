@@ -1,9 +1,30 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const recipeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  picture: { type: String, default: "https://via.placeholder.com/150x122" },
-  ingredients: { type: [String], required: true },
+const recipeSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  picture: {
+    type: String,
+    default: "https://via.placeholder.com/150x122",
+  },
+  ingredients: [
+    {
+      type: [String],
+      required: true,
+    },
+  ],
+  dateCreated: {
+    type: Date,
+    default: Date.now, // Default value is the current date
+  },
 });
 
-module.exports = mongoose.model("Recipe", recipeSchema);
+recipeSchema.index({ name: 1 });
+
+const Recipe = mongoose.model("Recipe", recipeSchema);
+
+module.exports = Recipe;

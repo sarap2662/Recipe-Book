@@ -1,3 +1,4 @@
+import axios, * as others from "axios";
 import React from "react";
 import Navbar from "./components/navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

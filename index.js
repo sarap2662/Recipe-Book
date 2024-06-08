@@ -15,5 +15,13 @@ app.use(methodOverride("_method"));
 // Controllers & Routes
 app.use("/recipes", require("./controllers/recipes"));
 
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+app.get("*", (req, res) => {
+  res.render("error");
+});
+
 // Listening for connections
 app.listen(process.env.PORT);
