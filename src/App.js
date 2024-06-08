@@ -1,11 +1,13 @@
 import React from "react";
 import Navbar from "./components/navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// Page Imports
 import Home from "./pages/home";
 import Add from "./pages/add";
 import RecipeBook from "./pages/recipes";
 import Error404 from "./pages/error404";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

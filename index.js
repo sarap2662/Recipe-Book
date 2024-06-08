@@ -14,7 +14,6 @@ app.use(methodOverride("_method"));
 
 // Controllers & Routes
 app.use("/recipes", require("./controllers/recipes"));
-app.use(express.urlencoded({ extended: true }));
 
 // Listening for connections
 app.listen(process.env.PORT);
