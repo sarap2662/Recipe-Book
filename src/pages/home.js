@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <div className="intro">
-        <h1>Welcome to the Recipe Book</h1>
+        <h1>Welcome to your Recipe Book</h1>
       </div>
       <div>
         <HomeStyle />
