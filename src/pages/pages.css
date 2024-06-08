@@ -14,7 +14,18 @@
   border: 2px solid green;
   width: 50%;
 }
+
 .formContainer button {
+  background-color: green;
+  border: 2px solid green;
+}
+
+.formContainer button:hover {
+  background-color: green;
+  border: 2px solid green;
+}
+
+.button-container .submit:hover {
   background-color: green;
   border: 2px solid green;
 }
@@ -53,6 +64,13 @@
 }
 
 .recipeCards button {
+  background-color: green;
+  border-radius: 50%;
+  border: 2px solid green;
+  width: 50%;
+}
+
+.recipeCards button:hover {
   background-color: green;
   border-radius: 50%;
   border: 2px solid green;
