@@ -36,7 +36,9 @@ function RecipeBook() {
                 <Card style={{ width: "20rem" }}>
                   <Card.Img
                     variant="top"
-                    src={recipe.image || "https://via.placeholder.com/150x122"}
+                    src={
+                      recipe.picture || "https://via.placeholder.com/150x122"
+                    }
                   />
                   <Card.Body>
                     <Card.Title>{recipe.name}</Card.Title>

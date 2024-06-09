@@ -2,13 +2,25 @@ import React from "react";
 import Navbar from "./components/navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import cors from "cors";
 
 // Page Imports
-import Home from "./pages/home";
-import Add from "./pages/add";
-import RecipeBook from "./pages/recipes";
-import Error404 from "./pages/error404";
-import EditRecipe from "./pages/editRecipe";
+import Home from "./views/home";
+import Add from "./views/add";
+import RecipeBook from "./views/recipes";
+import Error404 from "./views/error404";
+import EditRecipe from "./views/editRecipe";
+
+const express = require("express");
+const connectDB = require("./controllers/db");
+
+// Establish connection to MongoDB
+connectDB();
+
+// Middleware
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 require("dotenv").config();
 
@@ -26,5 +38,9 @@ function App() {
     </Router>
   );
 }
+
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
+});
 
 export default App;

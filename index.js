@@ -1,16 +1,11 @@
 // Modules and Globals
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const methodOverride = require("method-override");
-const cors = require("cors");
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+const methodOverride = require("method-override");
+const path = require("path");
 
 // Express Configuration
-app.set("pages", __dirname + "/pages");
+app.set("views", path.join(__dirname, "src", "views"));
 app.set("view engine", "jsx");
 app.engine("jsx", require("express-react-views").createEngine());
 app.use(express.static("public"));
@@ -20,13 +15,10 @@ app.use(methodOverride("_method"));
 // Controllers & Routes
 app.use("/recipes", require("./controllers/recipes"));
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.render("home");
 });
 
-app.get("*", (req, res) => {
+app.get("*", (_, res) => {
   res.render("error");
 });
-
-// Listening for connections
-app.listen(process.env.PORT);

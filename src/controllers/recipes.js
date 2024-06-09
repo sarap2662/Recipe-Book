@@ -1,19 +1,4 @@
-const express = require("express");
-const mongoose = require("mongoose");
 const Recipe = require("../models/recipeSchema");
-const cors = require("cors");
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 app.get("/api/recipes", async (req, res) => {
   try {
@@ -76,5 +61,3 @@ app.put("/recipe/:id", async (req, res) => {
     res.status(500).json({ message: "Error updating recipe" });
   }
 });
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
