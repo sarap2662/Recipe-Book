@@ -10,25 +10,26 @@ import RecipeBook from "./views/recipes";
 import Error404 from "./views/error404";
 import EditRecipe from "./views/editRecipe";
 
-const connectDB = require("../../backend/controllers/db");
+// const connectDB = require("../backend/controllers/db");
 
 // Establish connection to MongoDB
-connectDB();
+// connectDB();
 
 require("dotenv").config();
 
 function App() {
-  return;
-  // <Router>
-  //   <Navbar />
-  //   <Routes>
-  //     <Route exact path="/" element={<Home />} />
-  //     <Route path="/recipes/add" element={<Add />} />
-  //     <Route path="/recipes" element={<RecipeBook />} />
-  //     <Route path="/recipes/:id/edit" element={<EditRecipe />} />
-  //     <Route path="*" element={<Error404 />} />
-  //   </Routes>
-  // </Router>
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/recipes/add" element={<Add />} />
+        <Route path="/recipes" element={<RecipeBook />} />
+        <Route path="/recipes/:id/edit" element={<EditRecipe />} />
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
