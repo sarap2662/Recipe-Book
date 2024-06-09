@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 // Controllers & Routes
-app.use("/recipes", require("./controllers/recipes"));
+app.use("/recipes", require("./routes/recipeRoutes"));
 
 app.get("/", (_, res) => {
   res.render("home");
