@@ -1,6 +1,6 @@
-import express from "express";
-import db from "../db/dbConnection"; // Will assist with database connection
-import { ObjectId } from "mongodb"; // Will help convert id from string to ObjectId
+const express = require("express"); // Will assist with routing
+const db = require("../db/dbConnection"); // Will assist with database connection
+const { ObjectId } = require("mongodb"); // Will help convert id from string to ObjectId
 
 const router = express.Router(); // Middleware to handle requests
 
@@ -74,4 +74,4 @@ router.delete("/recipes/:id", async (req, res) => {
   }
 });
 
-export default router; // Export the router for use in the app
+module.exports = router; // Export the router for use in the app
