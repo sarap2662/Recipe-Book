@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../views/pages.css";
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Col, Row, Button, InputGroup } from "react-bootstrap";
 
 export default function Recipe() {
   const [form, setForm] = useState({
-    name: "",
-    diet: "",
-    restriction: "",
-    ingredients: [],
+    name: "", // default empty string
+    picture: "https://via.placeholder.com/150x122", // default placeholder image if none provided
+    ingredients: [""], // initialized as an array with an empty string
+    instructions: [""], // initialized as an array with an empty string
   });
   const [ingredients, setIngredients] = useState([""]);
+  const [instructions, setInstructions] = useState([""]);
+  // const [currentIngredient, setCurrentIngredient] = useState("");
+  // const [currentInstruction, setCurrentInstruction] = useState("");
   const params = useParams();
   const navigate = useNavigate();
 
@@ -39,11 +42,18 @@ export default function Recipe() {
   }, [params.id, navigate]);
 
   // Will update the state variables
-  function updateForm(value) {
-    return setForm((prev) => {
-      return { ...prev, ...value };
-    });
-  }
+  // function updateForm(value) {
+  //   return setForm((prev) => {
+  //     return { ...prev, ...value };
+  //   });
+  // }
+
+  const updateForm = (updates) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      ...updates,
+    }));
+  };
 
   // Will create and update the ingredients array with the values from the input fields
   const handleAddIngredient = (index, event) => {
@@ -52,15 +62,57 @@ export default function Recipe() {
     setIngredients(values);
   };
 
-  const handleAddClick = () => {
+  const handleAddInstruction = (index, event) => {
+    const values = [...instructions];
+    values[index] = event.target.value;
+    setInstructions(values);
+  };
+
+  const handleAddIngredientClick = () => {
     setIngredients([...ingredients, ""]);
   };
 
-  const handleRemoveClick = (index) => {
+  const handleAddInstructionClick = () => {
+    setInstructions([...instructions, ""]);
+  };
+
+  const addIngredient = () => {
+    // Add current ingredient to the array
+    const newIngredients = [...form.ingredients];
+    newIngredients.push("");
+    updateForm({ ...form, ingredients: newIngredients });
+  };
+
+  const addInstruction = () => {
+    // Add current instruction to the array
+    const newInstructions = [...form.instructions];
+    newInstructions.push("");
+    updateForm({ ...form, instructions: newInstructions });
+  };
+
+  const handleRemoveIngredientClick = (index) => {
     const values = [...ingredients];
     values.splice(index, 1);
     setIngredients(values);
   };
+
+  const handleRemoveInstructionClick = (index) => {
+    const values = [...instructions];
+    values.splice(index, 1);
+    setInstructions(values);
+  };
+
+  function handlePictureClick() {
+    if (form.picture === "https://via.placeholder.com/150x122") {
+      updateForm({ picture: "" }); // Clear placeholder text
+    }
+  }
+
+  function handlePictureBlur() {
+    if (form.picture === "") {
+      updateForm({ picture: "https://via.placeholder.com/150x122" }); // Reset placeholder text
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -76,18 +128,24 @@ export default function Recipe() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(food),
+          body: JSON.stringify(food, { ingredients, instructions }),
         }
       );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status ${response.status}`);
       }
-    } catch (error) {
-      console.error("A problem occured with your fetch operation:", error);
-    } finally {
-      setForm({ name: "", diet: "", restriction: "", ingredients: [] });
+
+      // Reset form and navigate only after successful fetch
+      setForm({
+        name: "",
+        picture: "https://via.placeholder.com/150x122",
+        ingredients: [""],
+        instructions: [""],
+      });
       navigate("/");
+    } catch (error) {
+      console.error("Error adding recipe: ", error);
     }
   };
 
@@ -100,83 +158,56 @@ export default function Recipe() {
         <div className="formContainer">
           <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formBasicName">
+              <Form.Group as={Col}>
                 <Form.Label htmlFor="name">Recipe Name</Form.Label>
                 <Form.Control
                   type="text"
                   value={form.name}
-                  onChange={(e) => updateForm(e.target.value)}
+                  onChange={(e) => updateForm({ name: e.target.value })}
                 />
               </Form.Group>
-              <Form.Group as={Col} controlId="formBasicDiet">
-                <Form.Label htmlFor="diet">Diet</Form.Label>
+              <Form.Group as={Col}>
+                <Form.Label htmlFor="picture">Picture URL</Form.Label>
                 <Form.Control
-                  type="text"
-                  placeholder="List the diet type of the recipe"
-                  value={form.diet}
-                  onChange={(e) => updateForm(e.target.value)}
+                  type="url"
+                  value={form.picture}
+                  onClick={handlePictureClick}
+                  onChange={(e) => updateForm({ picture: e.target.value })}
+                  onBlur={handlePictureBlur}
                 />
               </Form.Group>
             </Row>
-            <Form.Group>
-              <fieldset>
-                <legend className="food-types">Food Types</legend>
-                <Form.Label htmlFor="formBasicRestriction">
-                  Dietary Restrictions
-                </Form.Label>
-                <div className="mb-3">
-                  <Form.Check
-                    inline
-                    name="foodOptions"
-                    type="radio"
-                    id="vegetarian"
-                    value="Vegetarian"
-                    checked={form.restriction === "Vegetarian"}
-                    onChange={(e) => updateForm(e.target.value)}
-                  />
-                  <Form.Check
-                    inline
-                    name="foodOptions"
-                    type="radio"
-                    id="vegan"
-                    value="Vegan"
-                    checked={form.restriction === "Vegan"}
-                    onChange={(e) => updateForm(e.target.value)}
-                  />
-                  <Form.Check
-                    inline
-                    name="foodOptions"
-                    type="radio"
-                    id="pescatarian"
-                    value="Pescatarian"
-                    checked={form.restriction === "Pescatarian"}
-                    onChange={(e) => updateForm(e.target.value)}
-                  />
-                  <Form.Check
-                    inline
-                    name="foodOptions"
-                    type="radio"
-                    id="none"
-                    value="None"
-                    checked={form.restriction === "None"}
-                    onChange={(e) => updateForm(e.target.value)}
-                  />
-                </div>
-              </fieldset>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicIngredients">
+            <Form.Group className="mb-3">
               <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
               {ingredients.map((ingredient, index) => (
                 <div key={index}>
-                  <Form.Control
-                    type="text"
-                    value={ingredient}
-                    onChange={(event) => handleAddIngredient(index, event)}
-                  />
-                  <Button onClick={handleAddClick}>+</Button>
-                  {ingredients.length > 1 && (
-                    <Button onClick={() => handleRemoveClick(index)}>-</Button>
-                  )}
+                  <InputGroup>
+                    <Form.Control
+                      type="text"
+                      value={ingredient}
+                      onChange={(e) => handleAddIngredient(index, e)}
+                    />
+                    <Button onClick={() => addIngredient()} id="button-addon2">
+                      Add
+                    </Button>
+                  </InputGroup>
+                </div>
+              ))}
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="instructions">Instructions</Form.Label>
+              {instructions.map((instruction, index) => (
+                <div key={index}>
+                  <InputGroup>
+                    <Form.Control
+                      type="text"
+                      value={instruction}
+                      onChange={(e) => handleAddInstruction(index, e)}
+                    />
+                    <Button onClick={() => addInstruction()} id="button-addon2">
+                      Add
+                    </Button>
+                  </InputGroup>
                 </div>
               ))}
             </Form.Group>

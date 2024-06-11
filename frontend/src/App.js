@@ -15,6 +15,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<RecipeCards />} />
+        <Route path="/edit/:id" element={<Recipe />} />
         <Route path="/home" element={<Home />} />
         <Route path="/add" element={<Recipe />} />
         <Route path="*" element={<Error404 />} />

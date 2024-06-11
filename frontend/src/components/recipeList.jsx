@@ -1,19 +1,38 @@
 import React, { useState, useEffect } from "react";
 import "../views/pages.css";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import { useNavigate } from "react-router-dom";
+import { Button, Card, Col, Row, Container } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
 
-function RecipeCards() {
+const Recipe = (props) => {
+  const { recipe, deleteRecipe } = props;
+
+  return (
+    <Card>
+      <Card.Img
+        variant="top"
+        src={props.recipe.picture || "https://via.placeholder.com/150x122"}
+      />
+      <Card.Body>
+        <Card.Title>{props.recipe.name}</Card.Title>
+        <Link to={`/edit/${props.recipe._id}`}>
+          <Button variant="primary">Edit</Button>
+        </Link>
+        <Button variant="danger" onClick={() => deleteRecipe(props.recipe._id)}>
+          Delete
+        </Button>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export default function RecipeCards() {
   const [recipes, setRecipes] = useState([]);
   const navigate = useNavigate();
 
   // Fetch all recipes from the database
   useEffect(() => {
     async function getRecipes() {
-      const response = await fetch(`http://localhost:5000/`);
+      const response = await fetch(`http://localhost:5000/recipes/`);
       if (!response.ok) {
         const message = `An error has occured: ${response.statusText}`;
         console.error(message);
@@ -28,11 +47,20 @@ function RecipeCards() {
 
   // Delete a recipe from the database
   async function deleteRecipe(id) {
-    await fetch(`http://localhost:5000/recipes/${id}`, {
+    const response = await fetch(`http://localhost:5000/recipes/${id}`, {
       method: "DELETE",
     });
-    const newRecipes = recipes.filter((el) => el._id !== id);
-    setRecipes(newRecipes);
+
+    // Check for successful deletion
+    if (response.ok) {
+      // Remove the recipe from the state
+      const newRecipes = recipes.filter((recipe) => recipe._id !== id);
+      setRecipes(newRecipes);
+    } else {
+      // Handle error/ display message to user
+      const message = `Failed to delete recipe: ${response.statusText}`;
+      console.error(message);
+    }
   }
 
   // Map out all recipes from the database
@@ -56,39 +84,21 @@ function RecipeCards() {
         </div>
 
         <div className="recipeContainer">
-          <Row xs={1} md={2} className="g-4">
-            {recipes.map((recipe, idx) => (
-              <Col key={idx}>
-                <Card style={{ width: "20rem" }}>
-                  <Card.Img
-                    variant="top"
-                    src={
-                      recipe.picture || "https://via.placeholder.com/150x122"
-                    }
+          <Container>
+            <Row>
+              {recipes.map((recipe, idx) => (
+                <Col sm={6} md={4} lg={3} key={recipe._id}>
+                  <Recipe
+                    recipe={recipe}
+                    onEdit={() => navigate(`/edit/${recipe._id}`)}
+                    deleteRecipe={deleteRecipe}
                   />
-                  <Card.Body>
-                    <Card.Title>{recipe.name}</Card.Title>
-                    <Button
-                      variant="primary"
-                      onClick={() => navigate(`/edit/${recipe.id}`)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => deleteRecipe(recipe.id)}
-                    >
-                      Delete
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+                </Col>
+              ))}
+            </Row>
+          </Container>
         </div>
       </div>
     </>
   );
 }
-
-export default RecipeCards;
