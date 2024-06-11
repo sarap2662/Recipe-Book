@@ -1,6 +1,7 @@
 {
   "name": "recipe-book",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -19,7 +20,7 @@
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
-    "react-scripts": "latest",
+    "react-scripts": "^5.0.1",
     "sass": "^1.77.4",
     "styled-components": "^6.1.11",
     "web-vitals": "^4.1.0"
@@ -49,6 +50,7 @@
     "autoprefixer": "^10.4.19",
     "css-loader": "^7.1.2",
     "customize-cra": "^1.0.0",
+    "eslint": "^8.7.0",
     "eslint-webpack-plugin": "^4.2.0",
     "postcss": "^8.4.38",
     "style-loader": "^4.0.0",
