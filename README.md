@@ -16,3 +16,19 @@ TBA
 
 - Sara Pena - Department leader of Frontend
 - Rasheen Kirkland - Head associate of Backend related duties
+
+## Routes
+
+## Routes
+
+| METHOD |       PATH        |                           PURPOSE |
+| ------ | :---------------: | --------------------------------: | --------------------------------- |
+| GET    |         /         |                      Landing Page |
+| GET    |     /recipes      | Index page for all stored recipes |
+| POST   |   /recipes/add    |  Add a new recipe to the database |
+| GET    |   /recipes/:id    |           Opens card for a recipe |
+| PUT    | /recipes/:id/edit |   Make changes to a stored recipe |
+| DELETE |   /recipes/:id    |            Delete a stored recipe |
+| <!--   |        GET        |                          /recipes | Index page for all stored recipes |
+| POST   |   /recipes/add    |  Add a new recipe to the database |
+| GET    |   /recipes/:id    |           Opens card for a recipe | -->                               |
