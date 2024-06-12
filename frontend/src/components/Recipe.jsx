@@ -68,13 +68,13 @@ export default function Recipe() {
     setInstructions(values);
   };
 
-  const handleAddIngredientClick = () => {
-    setIngredients([...ingredients, ""]);
-  };
+  // const handleAddIngredientClick = () => {
+  //   setIngredients([...ingredients, ""]);
+  // };
 
-  const handleAddInstructionClick = () => {
-    setInstructions([...instructions, ""]);
-  };
+  // const handleAddInstructionClick = () => {
+  //   setInstructions([...instructions, ""]);
+  // };
 
   const addIngredient = () => {
     // Add current ingredient to the array
@@ -90,17 +90,17 @@ export default function Recipe() {
     updateForm({ ...form, instructions: newInstructions });
   };
 
-  const handleRemoveIngredientClick = (index) => {
-    const values = [...ingredients];
-    values.splice(index, 1);
-    setIngredients(values);
-  };
+  // const handleRemoveIngredientClick = (index) => {
+  //   const values = [...ingredients];
+  //   values.splice(index, 1);
+  //   setIngredients(values);
+  // };
 
-  const handleRemoveInstructionClick = (index) => {
-    const values = [...instructions];
-    values.splice(index, 1);
-    setInstructions(values);
-  };
+  // const handleRemoveInstructionClick = (index) => {
+  //   const values = [...instructions];
+  //   values.splice(index, 1);
+  //   setInstructions(values);
+  // };
 
   function handlePictureClick() {
     if (form.picture === "https://via.placeholder.com/150x122") {
@@ -117,7 +117,11 @@ export default function Recipe() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // will hold the value of the ingredients array to send to the backend
-    const food = { ...form };
+    const food = {
+      ...form,
+      ingredients: ingredients,
+      instructions: instructions,
+    };
     try {
       // if id is present, will set URL to /recipes/:id. elsewise URL will be /recipes
       const response = await fetch(
