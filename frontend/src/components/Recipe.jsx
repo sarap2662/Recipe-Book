@@ -7,6 +7,8 @@ export default function Recipe() {
   const [form, setForm] = useState({
     name: "", // default empty string
     picture: "https://via.placeholder.com/150x122", // default placeholder image if none provided
+    ingredient: "",
+    instruction: "",
     ingredients: [], // initialized as an empty array
     instructions: [], // initialized as an empty array
   });
@@ -48,6 +50,43 @@ export default function Recipe() {
     }));
   };
 
+  // Handler for input field changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
+  const addItemToArray = (arrayName, value) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      [arrayName]: [...prevForm[arrayName], form[value]],
+      [value]: "", // Clear the input field after adding
+    }));
+  };
+
+  // Handler for adding ingredients
+  const updateIngredient = () => {
+    if (!form.ingredient) return; // Prevent adding empty ingredients
+    setForm((prevForm) => ({
+      ...prevForm,
+      ingredients: [...prevForm.ingredients, form.ingredient],
+      ingredient: "", // Clear the input field after adding
+    }));
+  };
+
+  // Handler for adding ingredients
+  const updateInstruction = () => {
+    if (!form.instruction) return; // Prevent adding empty ingredients
+    setForm((prevForm) => ({
+      ...prevForm,
+      instructions: [...prevForm.instructions, form.instruction],
+      instruction: "", // Clear the input field after adding
+    }));
+  };
+
   const updateFormArray = (arrayName, operation, index, value) => {
     setForm((prevForm) => {
       // Create a copy of the ingredients array to avoid direct mutation
@@ -64,7 +103,7 @@ export default function Recipe() {
           break;
         case "update":
           // Update item at specified index with newItem
-          newArray[index] = value;
+          addItemToArray(arrayName, value);
           break;
         default:
           // Optionally handle unknown operations
@@ -79,15 +118,27 @@ export default function Recipe() {
     });
   };
 
-  // Add an item to the specified array
-  const addNewItem = (arrayName, item) => {
-    if (!item.trim()) return; // Prevent adding empty items
+  // Add an item to the ingredients or instructions array
+  const addItem = (arrayName) => {
+    if (arrayName === "ingredients") {
+      setIngredients([...ingredients, ""]);
+    } else {
+      setInstructions([...instructions, ""]);
+    }
+  };
+
+  // Update the input fields for the ingredients or instructions array
+  const updateItem = (arrayName, index, value) => {
+    if (!value.trim() || index < 0) return; // Prevent empty strings from being added
     setForm((prevForm) => ({
       ...prevForm,
-      [arrayName]: [...prevForm[arrayName], item],
+      [arrayName]: prevForm[arrayName].map((item, i) =>
+        i === index ? value : item
+      ),
     }));
   };
 
+  // Remove an item from the ingredients or instructions array
   const removeItem = (index, arrayName) => {
     // Determine which array to update
     const arrayToUpdate =
@@ -109,14 +160,6 @@ export default function Recipe() {
     updateForm({ [arrayName]: newFormArray });
   };
 
-  const addItem = (arrayName) => {
-    if (arrayName === "ingredients") {
-      setIngredients([...ingredients, ""]);
-    } else {
-      setInstructions([...instructions, ""]);
-    }
-  };
-
   function handlePictureClick() {
     if (form.picture === "https://via.placeholder.com/150x122") {
       updateForm({ picture: "" }); // Clear placeholder text
@@ -134,8 +177,12 @@ export default function Recipe() {
     // will hold the value of the ingredients array to send to the backend
     const food = {
       ...form,
-      ingredients: [...ingredients],
-      instructions: [...instructions],
+      ingredients: form.ingredient
+        ? [...form.ingredients, form.ingredient]
+        : [...form.ingredients],
+      instructions: form.instruction
+        ? [...form.instructions, form.instruction]
+        : [...form.instructions],
     };
     try {
       // if id is present, will set URL to /recipes/:id. elsewise URL will be /recipes
@@ -199,21 +246,14 @@ export default function Recipe() {
               </Row>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="ingredients">Ingredients</Form.Label>
-                {ingredients.map((ingredient, index) => (
+                {ingredients.map((index) => (
                   <div key={index}>
                     <InputGroup>
                       <Form.Control
                         type="text"
-                        value={ingredient}
-                        onChange={(e) => {
-                          // Update the ingredient at the specified index
-                          updateFormArray(
-                            "ingredients",
-                            "update",
-                            index,
-                            e.target.value
-                          );
-                        }}
+                        value={form.ingredient}
+                        onChange={handleInputChange}
+                        placeholder="Add ingredient"
                       />
                       {ingredients.length > 1 && (
                         <Button
@@ -230,32 +270,37 @@ export default function Recipe() {
                     <div className="input-buttons">
                       <Button
                         onClick={() => {
-                          updateFormArray("ingredients", "add", null);
+                          updateFormArray("ingredients");
                         }}
                       >
                         +
                       </Button>
+                      {/* <Button
+                        onClick={() => {
+                          addItemToArray("ingredients", "ingredient");
+                        }}
+                      >
+                        Submit
+                      </Button> */}
                     </div>
+                    {/* <ul>
+                      {form.ingredients.map((ingredient, index) => (
+                        <li key={index}>{ingredient}</li>
+                      ))}
+                    </ul> */}
                   </div>
                 ))}
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="instructions">Instructions</Form.Label>
-                {instructions.map((instruction, index) => (
+                {instructions.map((index) => (
                   <div key={index}>
                     <InputGroup>
                       <Form.Control
                         type="text"
-                        value={instruction}
-                        onChange={(e) => {
-                          // Update the instruction at the specified index
-                          updateFormArray(
-                            "instructions",
-                            "update",
-                            index,
-                            e.target.value
-                          );
-                        }}
+                        value={form.instruction}
+                        onChange={handleInputChange}
+                        placeholder="Add a step"
                       />
                       {instructions.length > 1 && (
                         <Button
@@ -277,7 +322,13 @@ export default function Recipe() {
                       >
                         +
                       </Button>
+                      <Button onClick={updateInstruction}>Submit</Button>
                     </div>
+                    {/* <ul>
+                      {form.instructions.map((instruction, index) => (
+                        <li key={index}>{instruction}</li>
+                      ))}
+                    </ul> */}
                   </div>
                 ))}
               </Form.Group>

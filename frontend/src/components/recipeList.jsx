@@ -73,19 +73,6 @@ export default function RecipeCards() {
     }
   }
 
-  // Map out all recipes from the database
-  // function recipeMap() {
-  //   return recipes.map((recipe) => {
-  //     return (
-  //       <Recipe
-  //         recipe={recipe}
-  //         deleteRecipe={() => deleteRecipe(recipe._id)}
-  //         key={recipe._id}
-  //       />
-  //     );
-  //   });
-  // }
-
   return (
     <>
       <div className="fullPage">
