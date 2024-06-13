@@ -4,7 +4,7 @@ import { Button, Card, Col, Row, Container } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 
 const Recipe = (props) => {
-  const { recipe, deleteRecipe } = props;
+  const { deleteRecipe } = props;
 
   return (
     <Card>
@@ -13,13 +13,23 @@ const Recipe = (props) => {
         src={props.recipe.picture || "https://via.placeholder.com/150x122"}
       />
       <Card.Body>
-        <Card.Title>{props.recipe.name}</Card.Title>
-        <Link to={`/edit/${props.recipe._id}`}>
-          <Button variant="primary">Edit</Button>
-        </Link>
-        <Button variant="danger" onClick={() => deleteRecipe(props.recipe._id)}>
-          Delete
-        </Button>
+        <div className="card-title">
+          <Card.Title>{props.recipe.name || "Food Name"}</Card.Title>
+        </div>
+        <div className="card-buttons">
+          <Link to={`/edit/${props.recipe._id}`}>
+            <Button className="edit-button" variant="primary">
+              Edit
+            </Button>
+          </Link>
+          <Button
+            className="delete-button"
+            variant="danger"
+            onClick={() => deleteRecipe(props.recipe._id)}
+          >
+            Delete
+          </Button>
+        </div>
       </Card.Body>
     </Card>
   );
@@ -84,15 +94,17 @@ export default function RecipeCards() {
         </div>
 
         <div className="recipeContainer">
-          <Container>
+          <Container fluid>
             <Row>
               {recipes.map((recipe, idx) => (
                 <Col sm={6} md={4} lg={3} key={recipe._id}>
-                  <Recipe
-                    recipe={recipe}
-                    onEdit={() => navigate(`/edit/${recipe._id}`)}
-                    deleteRecipe={deleteRecipe}
-                  />
+                  <div className="card">
+                    <Recipe
+                      recipe={recipe}
+                      onEdit={() => navigate(`/edit/${recipe._id}`)}
+                      deleteRecipe={deleteRecipe}
+                    />
+                  </div>
                 </Col>
               ))}
             </Row>
