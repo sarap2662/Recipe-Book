@@ -14,8 +14,8 @@ export default function Recipe() {
   });
   const [ingredients, setIngredients] = useState([""]);
   const [instructions, setInstructions] = useState([""]);
-  // const [newIngredient, setNewIngredient] = useState("");
-  // const [newInstruction, setNewInstruction] = useState("");
+  const [currentIngredient, setCurrentIngredient] = useState("");
+  const [currentInstruction, setCurrentInstruction] = useState("");
   const params = useParams();
   const navigate = useNavigate();
 
@@ -50,41 +50,51 @@ export default function Recipe() {
     }));
   };
 
-  // Handler for input field changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
+  // // Handler for input field changes
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     [name]: value,
+  //   }));
+  // };
+
+  const handleIngredientChange = (e) => {
+    setCurrentIngredient(e.target.value);
   };
 
-  const addItemToArray = (arrayName, value) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      [arrayName]: [...prevForm[arrayName], form[value]],
-      [value]: "", // Clear the input field after adding
-    }));
+  const handleInstructionChange = (e) => {
+    setCurrentInstruction(e.target.value);
   };
+
+  // const addItemToArray = (arrayName, value) => {
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     [arrayName]: [...prevForm[arrayName], form[value]],
+  //     [value]: "", // Clear the input field after adding
+  //   }));
+  // };
 
   // Handler for adding ingredients
   const updateIngredient = () => {
-    if (!form.ingredient) return; // Prevent adding empty ingredients
-    setForm((prevForm) => ({
-      ...prevForm,
-      ingredients: [...prevForm.ingredients, form.ingredient],
-      ingredient: "", // Clear the input field after adding
-    }));
+    if (currentIngredient.trim() !== "") {
+      setForm((prevForm) => ({
+        ...prevForm,
+        ingredients: [...prevForm.ingredients, currentIngredient.trim()],
+      }));
+      setCurrentIngredient("");
+    }
   };
 
   // Handler for adding ingredients
   const updateInstruction = () => {
-    if (!form.instruction) return; // Prevent adding empty ingredients
-    setForm((prevForm) => ({
-      ...prevForm,
-      instructions: [...prevForm.instructions, form.instruction],
-      instruction: "", // Clear the input field after adding
-    }));
+    if (currentInstruction.trim() !== "") {
+      setForm((prevForm) => ({
+        ...prevForm,
+        instructions: [...prevForm.instructions, currentInstruction.trim()],
+      }));
+      setCurrentInstruction("");
+    }
   };
 
   const updateFormArray = (arrayName, operation, index, value) => {
@@ -100,10 +110,6 @@ export default function Recipe() {
         case "remove":
           // Remove item
           removeItem(index, arrayName);
-          break;
-        case "update":
-          // Update item at specified index with newItem
-          addItemToArray(arrayName, value);
           break;
         default:
           // Optionally handle unknown operations
@@ -127,16 +133,16 @@ export default function Recipe() {
     }
   };
 
-  // Update the input fields for the ingredients or instructions array
-  const updateItem = (arrayName, index, value) => {
-    if (!value.trim() || index < 0) return; // Prevent empty strings from being added
-    setForm((prevForm) => ({
-      ...prevForm,
-      [arrayName]: prevForm[arrayName].map((item, i) =>
-        i === index ? value : item
-      ),
-    }));
-  };
+  // // Update the input fields for the ingredients or instructions array
+  // const updateItem = (arrayName, index, value) => {
+  //   if (!value.trim() || index < 0) return; // Prevent empty strings from being added
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     [arrayName]: prevForm[arrayName].map((item, i) =>
+  //       i === index ? value : item
+  //     ),
+  //   }));
+  // };
 
   // Remove an item from the ingredients or instructions array
   const removeItem = (index, arrayName) => {
@@ -251,8 +257,8 @@ export default function Recipe() {
                     <InputGroup>
                       <Form.Control
                         type="text"
-                        value={form.ingredient}
-                        onChange={handleInputChange}
+                        value={currentIngredient}
+                        onChange={handleIngredientChange}
                         placeholder="Add ingredient"
                       />
                       {ingredients.length > 1 && (
@@ -268,26 +274,8 @@ export default function Recipe() {
                       )}
                     </InputGroup>
                     <div className="input-buttons">
-                      <Button
-                        onClick={() => {
-                          updateFormArray("ingredients");
-                        }}
-                      >
-                        +
-                      </Button>
-                      {/* <Button
-                        onClick={() => {
-                          addItemToArray("ingredients", "ingredient");
-                        }}
-                      >
-                        Submit
-                      </Button> */}
+                      <Button onClick={updateIngredient}>+</Button>
                     </div>
-                    {/* <ul>
-                      {form.ingredients.map((ingredient, index) => (
-                        <li key={index}>{ingredient}</li>
-                      ))}
-                    </ul> */}
                   </div>
                 ))}
               </Form.Group>
@@ -298,8 +286,8 @@ export default function Recipe() {
                     <InputGroup>
                       <Form.Control
                         type="text"
-                        value={form.instruction}
-                        onChange={handleInputChange}
+                        value={currentInstruction}
+                        onChange={handleInstructionChange}
                         placeholder="Add a step"
                       />
                       {instructions.length > 1 && (
@@ -315,20 +303,8 @@ export default function Recipe() {
                       )}
                     </InputGroup>
                     <div className="input-buttons">
-                      <Button
-                        onClick={() => {
-                          updateFormArray("instructions", "add", null);
-                        }}
-                      >
-                        +
-                      </Button>
-                      <Button onClick={updateInstruction}>Submit</Button>
+                      <Button onClick={updateInstruction}>+</Button>
                     </div>
-                    {/* <ul>
-                      {form.instructions.map((instruction, index) => (
-                        <li key={index}>{instruction}</li>
-                      ))}
-                    </ul> */}
                   </div>
                 ))}
               </Form.Group>
